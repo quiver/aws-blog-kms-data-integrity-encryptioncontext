@@ -26,8 +26,8 @@ def get_address(email):
       KeyConditionExpression=Key(EMAIL).eq(email))
     item = response['Items'][0]
 
-    dec = kms.decrypt(CiphertextBlob = item[ADDRESS]) # <- fails
-    #dec = kms.decrypt(CiphertextBlob = str(item[ADDRESS]))
+    #dec = kms.decrypt(CiphertextBlob = item[ADDRESS]) # <- fails
+    dec = kms.decrypt(CiphertextBlob = str(item[ADDRESS]))
     return dec['Plaintext']
 
 # Encrypt the data
