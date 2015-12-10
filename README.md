@@ -68,3 +68,4 @@ If a malicious user(Mallory) can modify the DynamoDB table, she can replace data
 When you provide `EncryptionContext` at encryption, the system throws an `InvalidCiphertextException` when the system attemps to decrypt the record that has been tampered with.
 This code improves the security of KMS encryption.
 
+[How [How to Protect the Integrity of Your Encrypted Data by Using AWS Key Management Service and EncryptionContext]to Protect the Integrity of Your Encrypted Data by Using AWS Key Management Service and EncryptionContext]: https://blogs.aws.amazon.com/security/post/Tx2LZ6WBJJANTNW/How-to-Protect-the-Integrity-of-Your-Encrypted-Data-by-Using-AWS-Key-Management
