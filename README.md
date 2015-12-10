@@ -9,11 +9,13 @@ This is the code repository for Python-port code sample used in AWS Security Blo
  
 ## Setting Up AWS Services
 
-### KMS
+### Manual Setup
+
+#### KMS
 
 Create a customer master key.
 
-### DynamoDB
+#### DynamoDB
 
 Create a table `EcDemoAddresses` with a string-type key `EmailAddress`.
 
@@ -22,6 +24,28 @@ Or you can run the following command:
 ```
 $ cd encryption-context-python
 $ python create_dynamodb_table.py
+```
+
+### AWS cloudformation Setup
+
+I created a cloudformation template to provision
+
+* KMS
+* DynamoDB
+
+There are two parameters for this stack:
+
+* KeyAdministrator : AWS KMS Key Administrator
+* KeyUser : AWS KMS Key User
+
+After editting `cloudformation/parameters.json`, run the next command:
+
+```
+$ aws cloudformation create-stack \
+  --stack-name EcDemo \
+  --template-body file://cloudformation/dynamodb-kms.template.json \
+  --parameters file://cloudformation/parameters.json \
+  --capabilities=CAPABILITY_IAM
 ```
 
 ## Running Examples

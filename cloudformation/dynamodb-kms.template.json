@@ -1,0 +1,90 @@
+{
+  "AWSTemplateFormatVersion" : "2010-09-09",
+
+  "Description" : "The Amazon KMS/Dynamodb EcDemo Application",
+
+  "Parameters" : {
+    "KeyAdministrator" : {
+      "Description" : "AWS KMS Key Administrator",
+      "Type" : "String"
+    },
+    "KeyUser" : {
+      "Description" : "AWS KMS Key User",
+      "Type" : "String"
+    }
+  },
+
+  "Resources" : {
+
+    "EcDemoTable" : {
+      "DeletionPolicy" : "Delete",
+      "Type" : "AWS::DynamoDB::Table",
+      "Properties" : {
+        "AttributeDefinitions" : [
+          {
+            "AttributeName" : "EmailAddress",
+            "AttributeType" : "S"
+          }
+        ],
+        "KeySchema" : [
+          {
+            "AttributeName" : "EmailAddress",
+            "KeyType" : "HASH"
+          }
+        ],
+        "ProvisionedThroughput" : {
+          "ReadCapacityUnits" : "1",
+          "WriteCapacityUnits" : "1"
+        }
+      }
+    },
+
+    "EcDemoKey" : {
+      "DeletionPolicy" : "Delete",
+      "Type" : "AWS::KMS::Key",
+      "Properties" : {
+        "Description" : "A sample key",
+        "Enabled" : true,
+        "KeyPolicy" : {
+          "Version": "2012-10-17",
+          "Id": "key-default-1",
+          "Statement": [
+            {
+              "Sid": "Allow administration of the key",
+              "Effect": "Allow",
+              "Principal": { "AWS": { "Ref" : "KeyAdministrator"}},
+              "Action": [
+                "kms:Create*",
+                "kms:Describe*",
+                "kms:Enable*",
+                "kms:List*",
+                "kms:Put*",
+                "kms:Update*",
+                "kms:Revoke*",
+                "kms:Disable*",
+                "kms:Get*",
+                "kms:Delete*",
+                "kms:ScheduleKeyDeletion",
+                "kms:CancelKeyDeletion"
+              ],
+             "Resource": "*"
+            },
+            {
+              "Sid": "Allow use of the key",
+              "Effect": "Allow",
+              "Principal": { "AWS": { "Ref" : "KeyUser"}},
+              "Action": [
+                "kms:Encrypt",
+                "kms:Decrypt",
+                "kms:ReEncrypt",
+                "kms:GenerateDataKey*",
+                "kms:DescribeKey"
+              ],
+              "Resource": "*"
+            }
+          ]
+        }
+      }
+    }
+  }
+}
