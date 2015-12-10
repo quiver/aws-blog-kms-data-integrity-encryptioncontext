@@ -7,7 +7,6 @@ from boto3.dynamodb.conditions import Key
 
 from conf import TABLE, ADDRESS, EMAIL, KEYID
 
-# DO NOT USE
 def save_address(email, address):
     ciphertext = kms.encrypt(
       KeyId = KEYID,
@@ -23,7 +22,6 @@ def save_address(email, address):
         ADDRESS : Binary(ciphertext)
     })
 
-# DO NOT USE
 def get_address(email):
     response = table.query(
       KeyConditionExpression=Key(EMAIL).eq(email))
